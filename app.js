@@ -15,6 +15,12 @@ app.get('/', function(req, res) {
   res.send('Hello World!');
 });
 
+app.get('/pizza/:topping/:qty', function(req, res) {
+  var obj = req.params;
+  obj.title = 'Pizza Shop';
+  res.render('templates/pizza', obj);
+});
+
 app.get('/awesomethings', function(req, res) {
   setTimeout(function() {
     var awesomeThings = [
