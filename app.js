@@ -18,6 +18,8 @@ app.locals.title = 'aweso.me';
 
 //middlewares
 //logging
+app.use(require('less-middleware')('public'));
+
 app.use(function(req, res, next) {
   console.log('Request at ' + new Date().toISOString());
   next();

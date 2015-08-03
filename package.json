@@ -18,6 +18,7 @@
   "homepage": "https://github.com/katyjustiss/expressbasics#readme",
   "dependencies": {
     "ejs": "^2.3.3",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "less-middleware": "^2.0.1"
   }
 }
