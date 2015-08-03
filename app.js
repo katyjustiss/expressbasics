@@ -1,8 +1,22 @@
+//npm requires
 var express = require('express');
+
+//required routes
+var routes = require('./routes/index')
+var pizza = require('./routes/pizza');
+
+//variables
 var app = express();
 
+//settings
+//letting express know about ejs
 app.set('view engine', 'ejs');
+// app.set('case sensitive routing', true);
+// app.set('strict routing', true);
 
+app.locals.title = 'aweso.me';
+
+//middlewares
 //logging
 app.use(function(req, res, next) {
   console.log('Request at ' + new Date().toISOString());
@@ -11,57 +25,18 @@ app.use(function(req, res, next) {
 
 app.use(express.static('public'));
 
-app.get('/', function(req, res) {
-  res.send('Hello World!');
-});
+//routes
+app.use('/', routes);
+app.use('/pizza', pizza);
 
-app.get('/pizza/:topping/:qty', function(req, res) {
-  var obj = req.params;
-  obj.title = 'Pizza Shop';
-  res.render('templates/pizza', obj);
-});
-
-app.get('/awesomethings', function(req, res) {
-  setTimeout(function() {
-    var awesomeThings = [
-      'Pizza',
-      'Bacon',
-      '2nd Ammendment',
-      'Pluto',
-      'Space Jam'
-    ];
-    res.render('templates/world',
-      {title: 'Awesomesite.com',
-      welcome: 'Thanks for visiting!',
-      awesomeThings: awesomeThings
-    });
-}, 5000);
-});
-
-app.get('/test', function(req, res, next) {
-  res.write('Test1!');
-  next();
-});
-
-app.get('/test', function(req, res) {
-  res.end('Test2!');
-});
-
-app.get('/json', function(req, res) {
-  res.send({an: 'object'});
-});
-
-app.get('/thisshoulderror', function(req, res) {
-  res.send(badVariable);
-});
-
+//errors
 app.use(function (req, res, next) {
   res.status(403);
   res.send('Unauthorized');
 });
 
-//must pass 4 arguments
 app.use(function (err, req, res, next) {
+  //must pass 4 arguments
   console.log('ERRRRRRR', err.stack);
   res.status(500).send('My fault');
 });
