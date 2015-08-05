@@ -8,6 +8,7 @@ var bodyParser = require('body-parser')
 var routes = require('./routes/index')
 var pizza = require('./routes/pizza');
 var chickennuggets = require('./routes/chickennuggets')
+var imgur = require('./routes/imgur')
 
 //variables
 var app = express();
@@ -55,6 +56,7 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use('/', routes);
 app.use('/pizza', pizza);
 app.use('/chickennuggets', chickennuggets);
+app.use('/imgur', imgur);
 
 //errors
 app.use(function (req, res, next) {
