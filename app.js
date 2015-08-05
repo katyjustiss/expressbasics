@@ -2,14 +2,17 @@ var fs = require('fs');
 //npm requires
 var express = require('express');
 var morgan = require('morgan');
-var loggly = require('loggly');
+var bodyParser = require('body-parser')
 
 //required routes
 var routes = require('./routes/index')
 var pizza = require('./routes/pizza');
+var chickennuggets = require('./routes/chickennuggets')
 
 //variables
 var app = express();
+
+require('./lib/secrets');
 
 //settings
 //letting express know about ejs
@@ -32,16 +35,10 @@ var logStream = fs.createWriteStream('access.log', {flags: 'a'});
 app.use(morgan('combined', {stream: logStream}));
 app.use(morgan('dev'));
 
-var client = loggly.createClient({
-    token: "41698293-05d9-4603-a8e8-0b82920849df",
-    subdomain: "katyjustiss",
-    tags: ["NodeJS"],
-    json:true
-});
-
 //can just trim this down to what you want
 app.use(function(req, res, next) {
-  client.log({req: req.ip,
+  var client = require('./lib/loggly')('incoming'); //the tag
+  client.log({ip: req.ip,
               date: new Date().toISOString(),
               url: req.url,
               status: res.statusCode,
@@ -52,9 +49,12 @@ app.use(function(req, res, next) {
 
 app.use(express.static('public'));
 
+app.use(bodyParser.urlencoded({extended:false}))
+
 //routes
 app.use('/', routes);
 app.use('/pizza', pizza);
+app.use('/chickennuggets', chickennuggets);
 
 //errors
 app.use(function (req, res, next) {
@@ -63,6 +63,14 @@ app.use(function (req, res, next) {
 });
 
 app.use(function (err, req, res, next) {
+  var client = require('./lib/loggly')('error'); //the tag
+  client.log({ip: req.ip,
+              date: new Date().toISOString(),
+              url: req.url,
+              status: res.statusCode,
+              method: req.method,
+              err: err.stack
+            });
   //must pass 4 arguments
   console.log('ERRRRRRR', err.stack);
   res.status(500).send('My fault');
