@@ -1,12 +1,13 @@
 var router = require('express').Router();
 var upload  = require('multer')({dest: 'uploads/'})
 
-router.post('/upload', function() {
-
+router.get('/', function(req, res) {
+  res.render('templates/imgur');
 });
 
-router.get('/', function(req, res) {
-
+router.post('/upload', upload.single('file'), function(req, res) {
+  console.log(req.file);
+  res.redirect('/imgur');
 });
 
 module.exports = router;
