@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %> | Pizza Shop</title>
+        <link rel="stylesheet" href="/stylesheets/main.css">
+    </head><a href="/pizza"> Cancel </a>
+      <h1>Order awesomesauce pizzas!</h1>
+      <form action="/pizza/order" method="POST">
+        Name: <input name="name" type="text" placeholder="Bob Smith">
+        Quantity: <input name="qty" type="number" min="1" value='2'>
+        Topping:
+        <select multiple name="topping">
+          <option value="anchovies">Anchovies</option>
+          <option value="bacon">Bacon</option>
+          <option value="bell pepper">Bell Pepper</option>
+          <option value="ham">Ham</option>
+          <option value="jalepino">Jalepino</option>
+          <option value="mushroom">Mushroom</option>
+          <option value="olive">Olive</option>
+          <option value="onion">Onion</option>
+          <option value="pepperoni">Pepperoni</option>
+          <option value="pineapple">Pineapple</option>
+          <option value="sausage">Sausage</option>
+          <option value="spinach">Spinach</option>
+          <option value="sweet pepper">Sweet Pepper</option>
+          <option value="tomato">Tomato</option>
+        </select>
+        <input type="submit" value="Order Pizza!">
+      </form>
+    <body>
+
+    </body>
+</html>

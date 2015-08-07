@@ -1,18 +1,18 @@
 <!doctype html>
 <html>
     <head>
-        <title><%= title %> | Chicken Orders</title>
+        <title><%= title %> | Pizza Orders</title>
         <link rel="stylesheet" href="/stylesheets/main.css">
     </head>
     <body>
       <h1>Orders</h1>
-      <a href ="/chickennuggets/order"> New Order </a>
+      <a href ="/pizza/order"> New Order </a>
       <table>
         <h3> Waiting orders </h3>
         <thead>
           <tr>
             <th>Name</th>
-            <th>Flavor</th>
+            <th>Topping</th>
             <th>Quantity</th>
             <th>Time</th>
             <th>Actions</th>
@@ -23,11 +23,11 @@
               <% if (!order.complete) { %>
               <tr>
                 <td><%= order.name %></td>
-                <td><%= order.flavor %></td>
+                <td><%= order.topping %></td>
                 <td><%= order.qty %></td>
                 <td><%= order.createdAt %></td>
                 <td>
-                  <form action="/chickennuggets/order/<%= order._id %>/complete" method="POST">
+                  <form action="/pizza/order/<%= order._id %>/complete" method="POST">
                     <input type="submit" value="Complete">
                   </form>
                 </td>
@@ -42,8 +42,8 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Flavor</th>
             <th>Quantity</th>
+            <th>Topping</th>
             <th>Time</th>
           </tr>
         </thead>
@@ -52,8 +52,8 @@
               <% if (order.complete) { %>
               <tr>
                 <td><%= order.name %></td>
-                <td><%= order.flavor %></td>
                 <td><%= order.qty %></td>
+                <td><%= order.topping %></td>
                 <td><%= order.createdAt %></td>
               </tr>
             <% } %>
