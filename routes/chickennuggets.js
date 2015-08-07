@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 //var collection = global.db.collection('chickenNuggets')
 
@@ -12,7 +13,7 @@ router.get('/', function(req, res) {
         name: order.name,
         flavor: order.style,
         qty: order.qty,
-        createdAt: order._id.getTimestamp()
+        createdAt: moment(order._id.getTimestamp()).fromNow()
       };
     });
     res.render('templates/chicken-index', {orders: formattedOrders});
@@ -29,7 +30,7 @@ router.post('/order', function(req, res) {
   var collection = global.db.collection('chickenNuggets');
 
   collection.save(req.body, function() {
-    res.redirect('/');
+    res.redirect('/chickennuggets/order');
   })
 
 });
