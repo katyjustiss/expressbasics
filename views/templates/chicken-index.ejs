@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <title><%= title %> | List Orders</title>
+        <link rel="stylesheet" href="/stylesheets/main.css">
+    </head>
+    <body>
+      <h1>Orders</h1>
+      <a href ="/chickennuggets/order"> New Order </a>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Flavor</th>
+            <th>Quantity</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% orders.forEach(function(order) { %>
+              <tr>
+                <td><%= order.name %></td>
+                <td><%= order.flavor %></td>
+                <td><%= order.qty %></td>
+                <td><%= order.createdAt %></td>
+              </tr>
+            <% }); %>
+        </tbody>
+      </table>
+    </body>
+</html>
