@@ -10,19 +10,17 @@ router.get('/', function(req, res) {
 // })
 
 router.get('/awesomethings', function(req, res) {
-  setTimeout(function() {
-    var awesomeThings = [
-      'Pizza',
-      'Bacon',
-      '2nd Ammendment',
-      'Pluto',
-      'Space Jam'
-    ];
+  var collection = global.db.collection('awesomeThings');
+
+  collection.find().toArray(function(err, things) {
     res.render('templates/world',
-      {welcome: 'Thanks for visiting!',
-      awesomeThings: awesomeThings
-    });
-}, 5000);
+      {
+        welcome: 'Thanks for visiting!',
+        awesomeThings: things
+      }
+    );
+  });
+
 });
 
 router.get('/test', function(req, res, next) {

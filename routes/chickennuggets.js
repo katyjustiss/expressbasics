@@ -6,9 +6,13 @@ router.get('/', function(req, res) {
 });
 
 router.post('/order', function(req, res) {
+  var collection = global.db.collection('chickenNuggets')
   console.log(req.body);
-  res.redirect('/');
-  // res.send('Thanks for ordering')
+
+  collection.save(req.body, function() {
+    res.redirect('/');
+  })
+
 });
 
 module.exports = router;

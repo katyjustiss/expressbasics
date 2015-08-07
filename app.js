@@ -14,6 +14,7 @@ var imgur = require('./routes/imgur')
 var app = express();
 
 require('./lib/secrets');
+require('./lib/mongodb');
 
 //settings
 //letting express know about ejs
