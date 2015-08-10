@@ -13,7 +13,9 @@ var imgur = require('./routes/imgur')
 //variables
 var app = express();
 
-require('./lib/secrets');
+if(process.env.NODE_ENV !== 'production') {
+  require('./lib/secrets');
+}
 require('./lib/mongodb');
 
 //settings
@@ -79,9 +81,10 @@ app.use(function (err, req, res, next) {
   res.status(500).send('My fault');
 });
 
-var server = app.listen(3000, function () {
+var port = process.env.PORT || 3000;
+
+var server = app.listen(port, function () {
   var host = server.address().address;
   var port = server.address().port;
-
   console.log('Example app listening at http://%s:%s', host, port);
 });
