@@ -27,3 +27,5 @@ build/Release
 node_modules
 lib/secrets.js
 uploads/
+www/lib/
+www/stylesheets/*.css
