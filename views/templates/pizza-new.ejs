@@ -1,9 +1,8 @@
 <!doctype html>
 <html>
-    <head>
-        <title><%= title %> | Pizza Shop</title>
-        <link rel="stylesheet" href="/stylesheets/main.css">
-    </head><a href="/pizza"> Cancel </a>
+  <%- include('head', {page: 'All the Awesome Things'}) %>
+    <body>
+      <a href="/pizza"> Cancel </a>
       <h1>Order awesomesauce pizzas!</h1>
       <form action="/pizza/order" method="POST">
         Name: <input name="name" type="text" placeholder="Bob Smith">
@@ -27,7 +26,6 @@
         </select>
         <input type="submit" value="Order Pizza!">
       </form>
-    <body>
-
+      <%- include('javascripts') %>
     </body>
 </html>

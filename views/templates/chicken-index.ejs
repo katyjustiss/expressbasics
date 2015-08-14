@@ -1,9 +1,6 @@
 <!doctype html>
 <html>
-    <head>
-        <title><%= title %> | Chicken Orders</title>
-        <link rel="stylesheet" href="/stylesheets/main.css">
-    </head>
+    <%- include('head', {page: 'Chicken Orders'}) %>
     <body>
       <h1>Orders</h1>
       <a href ="/chickennuggets/order"> New Order </a>
@@ -60,5 +57,6 @@
             <% }); %>
         </tbody>
       </table>
+      <%- include('javascripts') %>
     </body>
 </html>

@@ -1,9 +1,6 @@
 <!doctype html>
 <html>
-    <head>
-        <title><%= title %> | Chicken </title>
-        <link rel="stylesheet" href="/stylesheets/main.css">
-    </head>
+  <%- include('head', {page: 'Chicken'}) %>
     <body>
       <h1>All the Chicken Nuggets</h1>
       <a href="/chickennuggets"> Cancel </a>
@@ -21,5 +18,6 @@
         Quantity: <input name="qty" type="number" min="1" value='6'>
         <input type="submit" value="Give me nuggets!">
       </form>
+      <%- include('javascripts') %>
     </body>
 </html>

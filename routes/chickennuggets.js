@@ -1,26 +1,24 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-var ObjectID = require('mongodb').ObjectID;
+
+var Order = require('../models/ChickenNuggets')
 
 //var collection = global.db.collection('chickenNuggets')
 
 router.get('/', function(req, res) {
-  var collection = global.db.collection('chickenNuggets');
-
-  collection.find().toArray(function(err, orders) {
-    formattedOrders = orders.map(function(order) { //modifying the data obj
-      return {
-        _id: order._id,
-        name: order.name,
-        flavor: order.sauce,
-        qty: order.qty,
-        createdAt: moment(order._id.getTimestamp()).fromNow(),
-        complete: order.complete
-      };
-    });
-    res.render('templates/chicken-index', {orders: formattedOrders});
+  Order.findAll(function (err, orders) {
+      res.render('templates/chicken-index', {orders: formatAllOrders(orders)})
   });
+
+  function formatAllOrders(orders) {
+    return orders.map(function(order) {
+      order.flavor = order.sauce;
+      order.createdAt = moment(order._id.getTimestamp()).fromNow();
+      delete order.sauce;
+      return order;
+    })
+  }
 
 });
 
@@ -30,25 +28,20 @@ router.get('/order', function(req, res) {
 
 
 router.post('/order', function(req, res) {
-  var collection = global.db.collection('chickenNuggets');
-
-  collection.save(req.body, function() {
-    res.redirect('/chickennuggets');
-  });
+  var order = new Order(req.body);
+  order.save(function() {
+    res.redirect('/chickennuggets')
+  })
 
 });
 
 //on click set property of complete
 router.post('/order/:id/complete', function(req, res) {
-  var collection = global.db.collection('chickenNuggets');
-
-  collection.update(
-    {_id: ObjectID(req.params.id)},
-    {$set: {complete: true}},
-    function() {
-      res.redirect('/chickennuggets');
-  })
-
+  Order.findById(req.params.id, function(err, order) {
+    order.complete(function() {
+    res.redirect('/chickennuggets');
+    });
+  });
 });
 
 
