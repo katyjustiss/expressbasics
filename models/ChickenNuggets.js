@@ -2,11 +2,13 @@ var _ = require('lodash');
 var ObjectID = require('mongodb').ObjectID;
 
 function Order(o) {
+  this.userId = ObjectID(o.userId);
   this.name = o.name;
   this.style = o.style;
   this.qty = o.qty;
   this.createdAt = new Date();
   this.complete = false;
+  this.cost = this.qty * 0.25;
 }
 
 Object.defineProperty(Order, 'collection', {
@@ -15,7 +17,12 @@ Object.defineProperty(Order, 'collection', {
   }
 })
 
-Order.prototype.save = function() {
+Order.create = function(o, cb) {
+  var order = new Order(o);
+  order.save(cb);
+}
+
+Order.prototype.save = function(cb) {
   Order.collection.save(this, cb);
 }
 
@@ -25,6 +32,15 @@ Order.prototype.complete = function(cb) { //instance method
     {$set: {complete: true}}
   , cb);
 }
+
+Order.findAllByUserId = function(id, cb) {
+  Order.collection.find({userId: ObjectID(id)}).toArray(function(err, orders) {
+    var prototypedOrders = orders.map(function(order) {
+      return setPrototype(order);
+    });
+    cb(err, prototypedOrders);
+  });
+};
 
 Order.findById = function(id, cb) { //class method
   Order.collection.find({_id: ObjectID(id)}, function(err, order) {

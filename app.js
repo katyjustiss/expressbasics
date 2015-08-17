@@ -64,7 +64,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.urlencoded({extended:false}))
 
 app.use(function getAuthStatus(req, res, next) {
-  res.locals.user = req.session.user ? req.session.user : null
+  res.locals.user = req.session.user || null;
   next();
 })
 
@@ -75,10 +75,8 @@ app.use(express.static('www'));
 
 app.use(function requireAuth(req, res, next) {
   if(req.session.user) {
-    res.locals.user = req.session.user
     next();
   } else {
-    res.locals.user = null;
     res.redirect('/user/login')
   }
 });
@@ -115,5 +113,3 @@ var server = app.listen(port, function () {
   var port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);
 });
-
-module.exports = app

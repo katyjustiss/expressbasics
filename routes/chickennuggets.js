@@ -4,10 +4,9 @@ var moment = require('moment');
 
 var Order = require('../models/ChickenNuggets')
 
-//var collection = global.db.collection('chickenNuggets')
-
 router.get('/', function(req, res) {
-  Order.findAll(function (err, orders) {
+  var id = req.session.user._id;
+  Order.findAllByUserId(id, function (err, orders) {
       res.render('templates/chicken-index', {orders: formatAllOrders(orders)})
   });
 
@@ -28,8 +27,9 @@ router.get('/order', function(req, res) {
 
 
 router.post('/order', function(req, res) {
-  var order = new Order(req.body);
-  order.save(function() {
+  var o = req.body;
+  o.userId = req.session.user._id;
+  Order.create(o, function() {
     res.redirect('/chickennuggets')
   })
 
