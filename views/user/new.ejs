@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <%- include('../templates/head', {page: 'Register'}) %>
+    <body>
+    <%- include('../templates/header') %>
+    <h1>Sign Up</h1>
+    <form class="pure-form pure-form-stacked" action="/login" method="POST">
+      <label for="email">Email</label>
+      <input type="email" name="email" placeholder="a@b.com">
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="password">
+      <label for="password_confirm">Password Confirmation</label>
+      <input type="password" name="password_confirm" placeholder="password">
+      <input class="pure-button pure-button-primary" type="submit" value="register">
+    </form>
+
+    </body>
+</html>
+

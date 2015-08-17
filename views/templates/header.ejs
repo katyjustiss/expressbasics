@@ -1,0 +1,18 @@
+<header>
+  <ul>
+    <!-- doesn't matter if logged in -->
+    <li><a href="/">Home</a></li>
+    <li><a href="/hello">Hello</a></li>
+    <li><a href="/awesomethings">Awesome Things</a></li>
+    <!-- logged in see these-->
+    <% if (user) { %>
+      <li><a href="/pizza">Order Pizza</a></li>
+      <li><a href="/chickennuggets">Order Chicken Nuggets</a></li>
+      <li><a href="/user/logout">Logout</a></li>
+    <!-- logged out can see these-->
+    <% } else { %>
+    <li><a href="/user/login">Login</a></li>
+    <li><a href="/user/new">Register</a></li>
+    <% } %>
+  </ul>
+</header>
