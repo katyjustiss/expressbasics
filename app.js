@@ -9,9 +9,12 @@ var routes = require('./routes/index')
 var pizza = require('./routes/pizza');
 var chickennuggets = require('./routes/chickennuggets')
 var imgur = require('./routes/imgur')
+var session = require('express-session')
 
 //variables
 var app = express();
+
+var user = require('./routes/user');
 
 if(process.env.NODE_ENV !== 'production') {
   require('./lib/secrets');
@@ -26,8 +29,15 @@ app.set('view engine', 'ejs');
 
 app.locals.title = 'aweso.me';
 
+app.use(session({
+  secret: 'expressbasicsisareallyawesomeapp',
+  resave: false,
+  saveUninitialized: true
+}));
+
+
 //middlewares
-app.use(require('less-middleware')('public'));
+app.use(require('less-middleware')('www'));
 
 //logging
 // app.use(function(req, res, next) {
@@ -51,15 +61,32 @@ app.use(function(req, res, next) {
   next();
 })
 
-app.use(express.static('public'));
-
 app.use(bodyParser.urlencoded({extended:false}))
 
+app.use(function getAuthStatus(req, res, next) {
+  res.locals.user = req.session.user ? req.session.user : null
+  next();
+})
+
 //routes
+app.use('/user', user);
 app.use('/', routes);
+app.use(express.static('www'));
+
+app.use(function requireAuth(req, res, next) {
+  if(req.session.user) {
+    res.locals.user = req.session.user
+    next();
+  } else {
+    res.locals.user = null;
+    res.redirect('/user/login')
+  }
+});
+
 app.use('/pizza', pizza);
 app.use('/chickennuggets', chickennuggets);
 app.use('/imgur', imgur);
+
 
 //errors
 app.use(function (req, res, next) {
@@ -88,3 +115,5 @@ var server = app.listen(port, function () {
   var port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);
 });
+
+module.exports = app
